@@ -80,7 +80,7 @@ void Encrypter::loadFile(std::string filename)
 
 void Encrypter::generateSeed()
 {
-	seed = 0;// (rand() % cesarVector.size()) + 1;
+	seed = 4;// (rand() % cesarVector.size()) + 1;
 }
 
 void Encrypter::applyCesarCipher()
@@ -99,7 +99,10 @@ void Encrypter::applyMorseCipher()
 	std::string output = "";
 
 	for (char sign : encrypted)
+	{
 		output += morseCode[sign];
+		output += char(0);
+	}
 
 	encrypted = output;
 }

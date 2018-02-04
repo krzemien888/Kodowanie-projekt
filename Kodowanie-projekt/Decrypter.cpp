@@ -83,15 +83,17 @@ void Decrypter::loadFile(std::string filename)
 
 void Decrypter::decryptCesar()
 {
-	for (char sign : fileData)
+	std::string output = "";
+	for (char sign : decrypted)
 	{
 		int basePosition = std::find(cesarVector.begin(), cesarVector.end(), std::toupper(sign)) - cesarVector.begin();
 		int newPosition = basePosition - seed;
 		if (newPosition < 0)
 			newPosition = cesarVector.size() + newPosition;
 
-		decrypted += cesarVector[newPosition];
+		output += cesarVector[newPosition];
 	}
+	decrypted = output;
 }
 
 void Decrypter::saveToFile(std::string filename)
@@ -104,9 +106,19 @@ void Decrypter::saveToFile(std::string filename)
 void Decrypter::decryptMorse()
 {
 	std::string output = "";
-
-	for (char sign : decrypted)
-		output += morseCode[sign];
+	std::string morseCharacter = "";
+	for (char sign : fileData)
+	{
+		if (sign == char(0))
+		{
+			output += morseCode[morseCharacter];
+			morseCharacter = "";
+		}
+		else
+		{
+			morseCharacter += sign;
+		}
+	}
 
 	decrypted = output;
 }
